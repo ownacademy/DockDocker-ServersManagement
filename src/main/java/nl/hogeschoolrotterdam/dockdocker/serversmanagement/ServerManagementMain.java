@@ -6,6 +6,7 @@
 package nl.hogeschoolrotterdam.dockdocker.serversmanagement;
 
 import com.google.gson.Gson;
+import java.util.ArrayList;
 import static spark.Spark.*;
 /**
  *
@@ -14,19 +15,26 @@ import static spark.Spark.*;
 
 public class ServerManagementMain {
     
+    private static Database database = null;
+    
     public static void main(String[] args) {
         
         //  port(5678); <- Uncomment this if you want spark to listen on a port different than 4567
+        try {
+            database = new Database();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
         
         get("/servers", (request, response) ->  {
             response.status(200);
-            return new Gson().toJson(Database.SELECT_SERVER_DATA());            
+            return new Gson().toJson(database.SELECT_SERVER_DATA());            
         });
 
         get("/deleteServer/:id", (request, response) -> { 
             int id = Integer.parseInt(request.params(":id"));
             
-            if(Database.DELETE_SERVER_DATA(id)){
+            if(database.DELETE_SERVER_DATA(id)){
                 response.status(200);
                 return "Success! ";
             } else {
@@ -40,7 +48,7 @@ public class ServerManagementMain {
             String ip = request.params(":serverIp");
             String status = request.params(":dockerStatus");
             
-            if(Database.INSERT_SERVER_DATA(name, ip, status)){
+            if(database.INSERT_SERVER_DATA(name, ip, status)){
                 response.status(200);
                 return "Success! ";
             } else {

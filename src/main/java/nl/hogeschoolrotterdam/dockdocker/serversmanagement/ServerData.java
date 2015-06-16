@@ -5,6 +5,8 @@
  */
 package nl.hogeschoolrotterdam.dockdocker.serversmanagement;
 
+import java.util.HashMap;
+
 /**
  *
  * @author Ivan
@@ -20,5 +22,21 @@ public class ServerData {
         this.SERVER_NAME = server_name;
         this.SERVER_IP = server_ip;
         this.DOCKER_STATUS = docker_status;
+    }
+    
+    public static ServerData EXTRACT_DATA(String getRequest){
+        String getParams = getRequest.replace("GET /", "");
+        getParams = getParams.replace(" HTTP/1.1", "");
+        
+        String[] splitedParams = getParams.split("&");
+        HashMap<String, String> params = new HashMap<>();
+        for (String s: splitedParams) {                       
+            String[] temp = s.split("=");
+            params.put(temp[0], temp[1]);
+        }
+        
+        ServerData data = new ServerData(-1, params.get("serverName"), params.get("ip"), params.get("dockerStatus"));
+        
+        return data;
     }
 }

@@ -20,38 +20,39 @@ public class Database {
        //  Database credentials
        static final String USER = "root";
        static final String PASS = "";
-    
-    public static ArrayList<ServerData> SELECT_SERVER_DATA(){
-        Connection conn = null;
-        Statement stmt = null;
+       //TO DO: Encrypt password.
+       
+       private Connection Connection = null;
+       private Statement Statement = null;
         
-        try {
+    public Database() throws Exception{
             Class.forName("com.mysql.jdbc.Driver");
             
             System.out.println("Connecting to a selected database...");
-            conn = DriverManager.getConnection(DB_URL, USER, PASS);
+            Connection = DriverManager.getConnection(DB_URL, USER, PASS);
             System.out.println("Connected database successfully...");
-            
+
             System.out.println("Creating statement...");
-            stmt = conn.createStatement();
-            
+            Statement = Connection.createStatement();
+    }
+    
+    public ArrayList<ServerData> SELECT_SERVER_DATA(){
+        try {
             System.out.println("Executring SELECT guery!");
             String sql = "SELECT * FROM list";
-            ResultSet rs = stmt.executeQuery(sql);
+            ResultSet results = Statement.executeQuery(sql);
             
             ArrayList<ServerData> serverData = new ArrayList<>();
-            while(rs.next()){
-               int id  = rs.getInt("id");
-               String name = rs.getString("server_name");
-               String ip = rs.getString("server_ip");
-               String status = rs.getString("docker_status");
+            while(results.next()){
+               int id  = results.getInt("id");
+               String name = results.getString("server_name");
+               String ip = results.getString("server_ip");
+               String status = results.getString("docker_status");
                
                serverData.add(new ServerData(id, name, ip, status));
             }
 
-            rs.close();
-            stmt.close();
-            System.out.println("Connection closed!");
+            results.close();
             return serverData;
         } catch (Exception e) {
             System.err.println(e);
@@ -59,27 +60,14 @@ public class Database {
         }
     }
     
-    public static boolean DELETE_SERVER_DATA(int id){
-        Connection conn = null;
-        Statement stmt = null;
+    public boolean DELETE_SERVER_DATA(int id){
         
-        try {
-            Class.forName("com.mysql.jdbc.Driver");
-            
-            System.out.println("Connecting to a selected database...");
-            conn = DriverManager.getConnection(DB_URL, USER, PASS);
-            System.out.println("Connected database successfully...");
-            
-            System.out.println("Creating statement...");
-            stmt = conn.createStatement();
-            
+        try {           
             System.out.println("Executing DELETE query!");
             String sql = "DELETE FROM list " +
                    "WHERE id = "+id+"";
-            stmt.executeUpdate(sql);
-           
-            stmt.close();
-            System.out.println("Connection closed!");
+            Statement.executeUpdate(sql);
+            
             return true;
         } catch (Exception e) {
             System.err.println(e);
@@ -87,28 +75,29 @@ public class Database {
         }
     }
     
-    public static boolean INSERT_SERVER_DATA(String server_name, String server_ip, String docker_status){
-        Connection conn = null;
-        Statement stmt = null;
-        
-        try {
-            Class.forName("com.mysql.jdbc.Driver");
-            
-            System.out.println("Connecting to a selected database...");
-            conn = DriverManager.getConnection(DB_URL, USER, PASS);
-            System.out.println("Connected database successfully...");
-            
-            System.out.println("Creating statement...");
-            stmt = conn.createStatement();
-            
+    public boolean INSERT_SERVER_DATA(String server_name, String server_ip, String docker_status){
+        try {            
             System.out.println("Executing INSERT query!");
             String sqlInstert = "INSERT INTO list (`server_name`, `server_ip`, `docker_status`)" +
                                 "VALUES ('"+server_name+"', '"+server_ip+"', '"+docker_status+"')";
-            stmt.executeUpdate(sqlInstert);
+            Statement.executeUpdate(sqlInstert);
             System.out.println("Inserted records into the table...");
-           
-            stmt.close();
-            System.out.println("Connection closed!");
+
+            return true;
+        } catch (Exception e) {
+            System.err.println(e);
+            return false;
+        }
+    }
+    
+    public boolean INSERT_SERVER_DATA(ServerData data){
+        try {            
+            System.out.println("Executing INSERT query!");
+            String sqlInstert = "INSERT INTO list (`server_name`, `server_ip`, `docker_status`)" +
+                                "VALUES ('"+data.SERVER_NAME+"', '"+data.SERVER_IP+"', '"+data.DOCKER_STATUS+"')";
+            Statement.executeUpdate(sqlInstert);
+            System.out.println("Inserted records into the table...");
+
             return true;
         } catch (Exception e) {
             System.err.println(e);
