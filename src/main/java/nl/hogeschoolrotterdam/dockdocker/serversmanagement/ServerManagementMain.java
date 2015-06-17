@@ -1,11 +1,7 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package nl.hogeschoolrotterdam.dockdocker.serversmanagement;
 
 import com.google.gson.Gson;
+import java.sql.ResultSet;
 import java.util.ArrayList;
 import static spark.Spark.*;
 /**
@@ -28,6 +24,25 @@ public class ServerManagementMain {
         
         get("/servers", (request, response) ->  {
             response.status(200);
+//            try {
+//                ResultSet results = Database.getInstance().executeSelectQuery("SELECT * FROM list");
+//                ArrayList<ServerData> serverData = new ArrayList<>();
+//                while(results.next()){
+//                   int id  = results.getInt("id");
+//                   String name = results.getString("server_name");
+//                   String ip = results.getString("server_ip");
+//                   String status = results.getString("docker_status");
+//
+//                   System.out.println(name);
+//                   serverData.add(new ServerData(id, name, ip, status));
+//                }
+//                
+//                return new Gson().toJson(serverData);
+//            } catch (Exception e) {
+//                System.out.println(e.getMessage());
+//                return e.getMessage();
+//            }
+
             return new Gson().toJson(database.SELECT_SERVER_DATA());            
         });
 
@@ -44,9 +59,25 @@ public class ServerManagementMain {
         });
         
         get("/addServer/:serverName/:serverIp/:dockerStatus", (request, response) -> { 
-            String name = request.params(":serverName");
-            String ip = request.params(":serverIp");
-            String status = request.params(":dockerStatus");
+            String name = request.params(":serverName").
+                    replace("%7Bcomma%7D", ", ").
+                    replace("%7Bslash%7D", "/").
+                    replace("{comma}", ", ").
+                    replace("{slash}", "/").
+                    replace("%20", " ");
+            String ip = request.params(":serverIp").
+                    replace("%7Bcomma%7D", ", ").
+                    replace("%7Bslash%7D", "/").
+                    replace("{comma}", ", ").
+                    replace("{slash}", "/").
+                    replace("%20", " ");
+            String status = request.params(":dockerStatus").
+                    replace("%7Bcomma%7D", ", ").
+                    replace("%7Bslash%7D", "/").
+                    replace("{comma}", ", ").
+                    replace("{slash}", "/").
+                    replace("%20", " ");
+            
             
             if(database.INSERT_SERVER_DATA(name, ip, status)){
                 response.status(200);
