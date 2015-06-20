@@ -1,5 +1,9 @@
 # DockDocker-ServersManagement
 
+What you need to start this API
+`1. You need SQL Manager API`
+`2  You need SQL server and make sure you are configure the connection data`
+
 call's to this API
 
 Select servers
