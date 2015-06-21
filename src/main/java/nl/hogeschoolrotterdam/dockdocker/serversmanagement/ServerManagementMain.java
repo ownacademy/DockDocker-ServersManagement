@@ -14,7 +14,7 @@ public class ServerManagementMain {
     
     public static void main(String[] args) {
         
-        //  port(5678); <- Uncomment this if you want spark to listen on a port different than 4567
+        port(5100); // <- Uncomment this if you want spark to listen on a port different than 4567
         
         RequestHandler handler = new RequestHandler();
         
