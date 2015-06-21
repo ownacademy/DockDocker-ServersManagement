@@ -9,17 +9,18 @@ call's to this API
 Select servers
 Example to get all servers
 ```
-localhost:4567/s_select/
+localhost:5100/s_select/
 ```
+By select use /SELECT * FROM <table> WHERE <some filter>
 -response JSON object
 
 To add server into the database
 ```
-localhost:4567/s_addServer/<username>/<password>/<server name>/<server ip's>/<docker status>
+localhost:5100/s_addServer/<username>/<password>/<server name>/<server ip's>/<docker status>
 ```
-
+if you used Java, convert the link with ASCII characters
 
 Delete server from the databse
 ```
-localhost:4567/s_deleteServer/<id>
+localhost:5100/s_deleteServer/<id>
 ```
