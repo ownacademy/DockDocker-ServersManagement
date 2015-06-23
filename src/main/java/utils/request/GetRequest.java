@@ -26,12 +26,12 @@ public class GetRequest extends Request {
      * @param domain: domain to send request to
      * @param url: url / action 
      */
-    public GetRequest(String domain, String url) {
-        super(domain, url);
+    public GetRequest(String domain, String url, String params) {
+        super(domain, url, params);
     }
 
     @Override
-    public void execute() {
+    public void executeGet() {
         HttpURLConnection con = null;
         try {            
             URL obj = new URL(domain+url);
@@ -65,6 +65,11 @@ public class GetRequest extends Request {
         } finally {
             con.disconnect();
         }
+    }
+
+    @Override
+    public void executePost() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
 }

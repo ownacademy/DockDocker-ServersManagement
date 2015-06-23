@@ -12,6 +12,7 @@ public interface IRequest {
      * 2. Reads results
      * 3. Closes connection
      */
-    public abstract void execute();
+    public abstract void executeGet();
+    public abstract void executePost();
     
 }

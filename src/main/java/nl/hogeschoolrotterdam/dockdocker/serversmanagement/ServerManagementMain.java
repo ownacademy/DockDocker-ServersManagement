@@ -17,24 +17,25 @@ public class ServerManagementMain {
         port(5100); // <- Uncomment this if you want spark to listen on a port different than 4567
         
         RequestHandler handler = new RequestHandler();
-        
-        get("/s_servers", "application/json", (request, response) -> {
-            return handler.getServers();
+                
+        get("/post_servers", "application/json", (request, response) -> {
+            return handler.postServers();
         });
         
-        get("/s_deleteServer/:id", "application/json", (request, response) -> {
+        get("/post_deleteServer/:id", "application/json", (request, response) -> {
             String id = request.params(":id");
-            return handler.deleteServer(id);
+            return handler.postDeleteServer(id);
         });
         
-        get("/s_addServer/:username/:password/:serverName/:serverIp/:dockerStatus", "application/json", (request, response) -> {
+        get("/post_addServer/:username/:password/:serverName/:serverIp/:dockerStatus",
+                "application/json", (request, response) -> {
             String username = request.params(":username");
             String password = request.params(":password");
             String name = request.params(":serverName");
             String ip = request.params(":serverIp");
             String status = request.params(":dockerStatus");
             
-            return handler.addServer(username, password, name, ip, status);
+            return handler.postAddServer(username, password, name, ip, status);
         });
         
     }  

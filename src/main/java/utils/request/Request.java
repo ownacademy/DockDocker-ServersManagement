@@ -15,6 +15,7 @@ public abstract class Request implements IRequest {
     
     protected String domain;
     protected String url;
+    protected String params;
     protected String response;
     
     /**
@@ -23,9 +24,10 @@ public abstract class Request implements IRequest {
      * @param domain: domain to send request to
      * @param url: url / action 
      */
-    public Request(String domain, String url) {
+    public Request(String domain, String url, String params) {
         this.domain = domain;
         this.url = url;
+        this.params = params;
     }
     
     /**
@@ -38,5 +40,8 @@ public abstract class Request implements IRequest {
     }
     
     @Override
-    public abstract void execute();
+    public abstract void executeGet();
+    
+    @Override
+    public abstract void executePost();
 }
