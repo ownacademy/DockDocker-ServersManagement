@@ -10,14 +10,14 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 /**
  * Generalization of Request. 
  * Executes GET request
  * 
- * @see: Request
  * @author: DockDocker development team
- * @Edited Ivan
+ * 
  */
 public class PostRequest extends Request {
     private final String USER_AGENT = "Mozilla/5.0";
@@ -26,6 +26,7 @@ public class PostRequest extends Request {
      * 
      * @param domain: domain to send request to
      * @param url: url / action 
+     * @param params: params for the request.
      */
     public PostRequest(String domain, String url, String params) {
         super(domain, url, params);
@@ -33,7 +34,7 @@ public class PostRequest extends Request {
 
     @Override
     public void executeGet() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        throw new NotImplementedException(); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override

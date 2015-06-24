@@ -8,8 +8,7 @@ package utils.request;
 /**
  * Realization for Request
  * 
- * @see: IRequest
- * @author Patrick
+ * @author: Patrick and Ivan Ivanov
  */
 public abstract class Request implements IRequest {
     
@@ -23,6 +22,7 @@ public abstract class Request implements IRequest {
      * 
      * @param domain: domain to send request to
      * @param url: url / action 
+     * @param params: params for the request.
      */
     public Request(String domain, String url, String params) {
         this.domain = domain;
@@ -39,9 +39,15 @@ public abstract class Request implements IRequest {
         return response;
     }
     
+    /**
+     * Sends GET request.
+     */
     @Override
     public abstract void executeGet();
     
+    /**
+     * Sends POST request.
+     */
     @Override
     public abstract void executePost();
 }

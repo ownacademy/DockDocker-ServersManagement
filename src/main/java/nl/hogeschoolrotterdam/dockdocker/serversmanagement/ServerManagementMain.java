@@ -7,7 +7,7 @@ import static spark.Spark.*;
 import utils.RequestHandler;
 /**
  *
- * @author Ivan
+ * @author Ivan Ivanov
  */
 
 public class ServerManagementMain {
@@ -36,6 +36,17 @@ public class ServerManagementMain {
             String status = request.params(":dockerStatus");
             
             return handler.postAddServer(username, password, name, ip, status);
+        });
+        
+        get("/fromRegApp/:username/:password/:serverName/:serverIp/:dockerStatus",
+                "application/json", (request, response) -> {
+            String username = request.params(":username");
+            String password = request.params(":password");
+            String name = request.params(":serverName");
+            String ip = request.params(":serverIp");
+            String status = request.params(":dockerStatus");
+            
+            return handler.getAddServer(username, password, name, ip, status);
         });
         
     }  

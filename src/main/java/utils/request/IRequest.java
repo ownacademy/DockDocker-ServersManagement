@@ -3,7 +3,7 @@ package utils.request;
 /**
  * Request interface
  * 
- * @author Patrick
+ * @author Patrick and Ivan Ivanov
  */
 public interface IRequest {
     
